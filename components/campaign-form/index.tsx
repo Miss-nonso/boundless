@@ -13,7 +13,7 @@ import { ProgressTracker } from './components/progress-tracker';
 import { StepNavigation } from './components/step-navigation';
 import { type ProjectFormValues, projectFormSchema, steps } from './types';
 
-export function ProjectForm() {
+export function CampaignForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const [xlmPrice, setXLMPrice] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -127,9 +127,9 @@ export function ProjectForm() {
       }
 
       // Add team members if any
-      if (data.teamMembers.length > 0) {
-        formData.append('teamMembers', JSON.stringify(data.teamMembers));
-      }
+      // if (data.teamMembers.length > 0) {
+      //   formData.append('teamMembers', JSON.stringify(data.teamMembers));
+      // }
 
       // Add milestones if any
       if (data.milestones.length > 0) {
@@ -150,25 +150,25 @@ export function ProjectForm() {
       }
 
       // Initialize the project using the new init endpoint
-      const response = await fetch('/api/projects/init', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/campaigns`, {
         method: 'POST',
         body: formData,
       });
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || error.error || 'Failed to initialize project');
+        throw new Error(error.message || error.error || 'Failed to create campaign');
       }
 
       const { project, message } = await response.json();
 
-      toast.success('Project initialized successfully', {
-        description: message || 'Your project has been submitted for validation.',
+      toast.success('Campaign created successfully', {
+        description: message || 'Your campaign has been created.',
       });
-      router.push(`/projects/${project.id}`);
+      router.push(`/projects/${project.id}/#campaigns`);
     } catch (error: unknown) {
-      console.error('Failed to initialize project:', error);
-      toast.error('Failed to initialize project', {
+      console.error('Failed to create campaign:', error);
+      toast.error('Failed to create campaign', {
         description: error instanceof Error ? error.message : 'Please try again.',
       });
     } finally {
@@ -179,9 +179,10 @@ export function ProjectForm() {
   const getFieldsForStep = (step: number): (keyof ProjectFormValues)[] => {
     switch (step) {
       case 0: // Basic Info
-        return ['title', 'description', 'fundingGoal', 'category'];
-      case 1: // Team
-        return ['teamMembers'];
+        return ['title', 'description'];
+      case 1: // Funding goal
+        // return ['teamMembers'];
+        return ['fundingGoal', 'category'];
       case 2: // Milestones
         return ['milestones'];
       case 3: // Documents

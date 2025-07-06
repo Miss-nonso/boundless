@@ -59,8 +59,8 @@ export function FormActions({
           </DialogTrigger>
           <DialogContent className="max-w-3xl">
             <DialogHeader>
-              <DialogTitle>Project Preview</DialogTitle>
-              <DialogDescription>This is how your project will appear to others</DialogDescription>
+              <DialogTitle>Campaign Preview</DialogTitle>
+              <DialogDescription>This is how your campaign will appear to others</DialogDescription>
             </DialogHeader>
             <ProjectPreview formData={formData} />
           </DialogContent>
@@ -70,7 +70,7 @@ export function FormActions({
       <div className="flex items-center gap-3">
         {currentStep === totalSteps ? (
           <Button type="button" size="sm" className="h-8" disabled={isSubmitting} onClick={onSubmit}>
-            {isSubmitting ? 'Initializing...' : 'Initialize Project'}
+            {isSubmitting ? 'Creating...' : 'Create Campaign'}
           </Button>
         ) : (
           <Button type="button" size="sm" className="h-8" onClick={onNext} disabled={isSubmitting}>

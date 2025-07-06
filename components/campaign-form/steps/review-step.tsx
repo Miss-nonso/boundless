@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+// import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CardContent } from '@/components/ui/card';
@@ -9,7 +9,7 @@ import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
-import { Calendar, ChevronDown, ChevronUp, DollarSign, FileText, FileUp, Flag, Users } from 'lucide-react';
+import { Calendar, ChevronDown, ChevronUp, DollarSign, FileText, FileUp, Flag } from 'lucide-react';
 import { useState } from 'react';
 import type { ProjectFormValues } from '../types';
 import { categories } from '../types';
@@ -37,25 +37,9 @@ export function ReviewStep({ formData }: ReviewStepProps) {
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-lg font-medium">Review Your Project</h3>
+        <h3 className="text-lg font-medium">Review Your Campaign</h3>
         <p className="text-sm text-muted-foreground">Review all the information before submitting for validation</p>
         <Separator className="my-3" />
-      </div>
-
-      {/* Validation Process Information */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <div className="flex items-start gap-3">
-          <div className="flex-shrink-0">
-            <Flag className="h-5 w-5 text-blue-600" />
-          </div>
-          <div>
-            <h4 className="text-sm font-medium text-blue-900 mb-1">Project Validation Process</h4>
-            <p className="text-sm text-blue-700">
-              After submission, your project will enter a community validation phase where users can vote on your idea.
-              Once validated, your project will be eligible for funding campaigns.
-            </p>
-          </div>
-        </div>
       </div>
 
       <div className="space-y-3">
@@ -99,58 +83,6 @@ export function ReviewStep({ formData }: ReviewStepProps) {
                 </h4>
                 <p className="text-lg font-bold text-primary">${formData.fundingGoal?.toLocaleString() ?? '0'}</p>
               </div>
-            </CardContent>
-          </CollapsibleContent>
-        </Collapsible>
-
-        {/* Team Members */}
-        <Collapsible
-          open={openSections.team}
-          onOpenChange={() => toggleSection('team')}
-          className="border rounded-lg overflow-hidden transition-all duration-200"
-        >
-          <div className="flex items-center justify-between p-3 bg-muted/30">
-            <div className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-primary" />
-              <h3 className="font-medium text-sm">Team Members</h3>
-              <Badge variant="outline" className="text-xs">
-                {formData.teamMembers.length}
-              </Badge>
-            </div>
-            <CollapsibleTrigger asChild>
-              <Button type="button" variant="ghost" size="sm" className="h-7 w-7 p-0">
-                {openSections.team ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-              </Button>
-            </CollapsibleTrigger>
-          </div>
-          <CollapsibleContent>
-            <CardContent className="pt-3 pb-4 px-3">
-              {formData.teamMembers.length === 0 ? (
-                <div className="text-center py-4 text-muted-foreground text-sm">No team members added yet</div>
-              ) : (
-                <div className="grid gap-2 sm:grid-cols-2">
-                  {formData.teamMembers.map((member, index) => (
-                    <motion.div
-                      key={member.userId}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-center gap-3 p-2 border rounded-lg"
-                    >
-                      <Avatar className="h-8 w-8 border">
-                        <AvatarImage src={member.user?.image || '/placeholder.svg'} />
-                        <AvatarFallback className="bg-primary/10 text-primary text-xs">
-                          {member.user?.name?.charAt(0) || member.userId.charAt(0)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-medium truncate">{member.user?.name || `User ${index + 1}`}</h4>
-                        <p className="text-xs text-muted-foreground truncate">{member.role}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
             </CardContent>
           </CollapsibleContent>
         </Collapsible>
